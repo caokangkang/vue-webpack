@@ -3,7 +3,10 @@
 import Vue from 'vue'
 // 引入的路径没有 ./  /  直接写名字是找到 mode_modules 目录下的文件
 import Router from 'vue-router'
-
+// 传值方式
+// 1.通过网址传递 在路由里获取
+// 2.同上       直接
+// 3.使用
 const App = {
   template: `<div id="app">
   <ul>
@@ -11,11 +14,11 @@ const App = {
   <li>
     <router-link to="/aa">aa</router-link>
     <ul>
-      <li><router-link to="/aa/b">b</router-link></li>
-      <li><router-link to="/aa/bbb">c</router-link></li>
+      <li><router-link to="/aa/aaa">aaa</router-link></li>
+      <li><router-link to="/aa/aaaa">aaaa</router-link></li>
     </ul>
   </li>
-  <li><router-link :to="{ name: 'c', query:{ id:123 } }">c</router-link></li>
+  <li><router-link :to="{ path:'/b/bb',params:{ id:123 } }">/b/bb</router-link></li>
   </ul>
   <router-view></router-view>
 </div>`
@@ -24,19 +27,19 @@ const App = {
 const index = {
   template: `<div>这里是index</div>`
 }
-const aa = {
+const a = {
   template: `<div>
     <p>这里是a</p>
     <router-view></router-view>
   </div>`
 }
-const b = {
-  template: `<div>这里是b {{$route.params}}</div>`
+const aa = {
+  template: `<div>这里是aa {{$route.params}}</div>`
 }
-const c = Vue.component('b', {
-  template: `<div>这里是c</div>`,
+const b = Vue.component('b', {
+  template: `<div>这里是b</div>`,
   mounted () {
-    console.log(this.$route)
+    console.log(this.$route.params)
   }
 })
 // 根路由显示的地方是第一个 router-view标签里
@@ -46,7 +49,7 @@ const router = new Router({
     // 根路由可以写 /
     {path: '/', component: index},
     {path: '/aa',
-      component: aa,
+      component: a,
       children: [
       // 子路由可以不写 /
         // 父级路由定义了 /a/子路由的path
@@ -54,11 +57,11 @@ const router = new Router({
         // :随便起的名字  绑定了一个值是可以接收数据
         // http://localhost:8080/#  /a/     aa
         // /a/父级路由对应上了
-      {path: 'b', component: b},
-      {path: ':id', component: b}
+      {path: 'aa', component: aa},
+      {path: ':id', component: aa}
       ]
     },
-    {path: '/c/:id', component: c}
+    {path: '/b/:id', component: b}
   ]
 })
 

@@ -1,27 +1,43 @@
 <template>
   <div id="app">
-    这里是第一个模板
-    <v-header :aaaa='aaaa'></v-header>
+    {{ name }}
+    <button @click="addagepro()">+</button>
+    <button @click="minusagepro()">-</button>
     <router-view :aa='"路由B"'></router-view>
-    <v-footer></v-footer>
   </div>
 </template>
 
 <script>
+import {mapState, mapMutations, mapActions, mapGetters} from 'vuex'
 import zidingyi from './components/moban'
-import header from './components/header'
-import footer from './components/footer'
 export default {
   name: 'app',
   data () {
     return {
-      aaaa: '路由A'
+      aaaa: '路由 A'
     }
   },
+  computed: {
+    ...mapState([
+      'name',
+      'age'
+    ]),
+    ...mapGetters([
+      'golv'
+    ])
+  },
+  methods: {
+    ...mapMutations([
+      'addage',
+      'minusage'
+    ]),
+    ...mapActions([
+      'addagepro',
+      'minusagepro'
+    ])
+  },
   components: {
-    zidingyi,
-    'v-header': header,
-    'v-footer': footer
+    zidingyi
   }
 }
 </script>
